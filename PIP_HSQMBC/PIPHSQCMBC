@@ -1,0 +1,84 @@
+; PIPhsqmbc
+;Pure In-Phase HSQMBC with final adiabatic z-filter and perfect echo gradient ;optional IPAP using const25
+#include <Avance.incl>
+#include <Grad.incl>
+#include <Delay.incl>
+"p2=p1*2"
+"d6=1s/(cnst2*4)"
+"d0=3u"
+"in0=inf1/2"
+"DELTA2=d6-larger(p2,p14)/2"
+"DELTA=p16+d16+p2+d0*2"
+"DELTA4=p16+d16"
+1 ze
+2 d1 pl1:f1 3 (p1 ph1)
+DELTA2 pl0:f2
+(center (p2 ph1) (p14:sp3 ph6):f2 )
+DELTA2 pl2:f2 UNBLKGRAD
+(p1 ph2) (p3 ph3):f2 d0
+(p2 ph5)
+d0
+p16:gp1*EA
+d16 pl0:f2
+(p24:sp7 ph4):f2
+DELTA pl2:f2
+(ralign (p1 ph1) (p3 ph4):f2 )
+if "cnst25==0" {
+DELTA2 pl0:f2
+(center (p2 ph1) (p14:sp3 ph1):f2 ) DELTA2 pl2:f2
+}
+else
+{
+d6
+(p2 ph2) d6
+}
+if "cnst25==0"
+252
+{
+(p1 ph2):f1 }
+else
+{
+(p1 ph1):f1 }
+d12 pl0:f1
+300u gron0 (p32:sp29 ph1):f1 300u groff
+d12 pl1:f1
+p1 ph1
+DELTA4
+p2 ph1 DELTA4
+p1 ph2 DELTA4
+p2 ph1 p16:gp2
+d16 BLKGRAD
+go=2 ph31 d1 mc #0 to 2
+F1EA(calgrad(EA), caldel(d0, +in0) & calph(ph3, +180) & calph(ph6, +180) & calph(ph31, +180)) exit
+ph1=0 ph2=1 ph3=0 2 ph4=0 ph5=0 ph6=0 ph31=0 2
+;pl0 : 0W
+;pl1 : f1 channel - power level for pulse (default)
+;pl2 : f2 channel - power level for pulse (default)
+;sp3: f2 channel - shaped pulse 180 degree
+;sp7: f2 channel - shaped pulse 180 degree
+;sp29: f2 channel - shaped adiabatic pulse 180 degree
+;p1 : f1 channel - 90 degree high power pulse
+;p2 : f1 channel - 180 degree high power pulse
+;p3 : f2 channel - 90 degree high power pulse
+;p4 : f2 channel - 180 degree high power pulse
+;p14: f2 channel - 180 degree shaped pulse for inversion
+;p24: f2 channel - 180 degree shaped pulse for refocusing
+;p32: f2 channel - 180 degree shaped pulse for adiabatic z-filter ;p16: homospoil/gradient pulse
+;d0 : incremented delay (2D) [3 usec] ;d1 : relaxation delay; 1-5 * T1
+;cnst25=0 (IP) 1 (AP)
+;cnst2= 8Hz
+;d6 : 1/(4J)XH (long range coupling constant) ;d16: delay for homospoil/gradient recovery ;inf1: 1/SW(X) = 2 * DW(X)
+;in0: 1/(2 * SW(X)) = DW(X)
+;nd0: 2
+;NS: 2 * n
+;DS: >= 2
+;td1: number of experiments ;FnMODE: echo-antiecho
+;use gradient ratio: ;
+;
+gp 1 : gp 2
+80 : 20.1
+80:8.1 forN-15
+;for z-only gradients:
+;gpz1: 80%
+;gpz2: 20.1% for C-13, 8.1% for N-15 ;gpz0: 3%
+;use gradient files: ;gpnam1: SMSQ10.100 ;gpnam2: SMSQ10.100

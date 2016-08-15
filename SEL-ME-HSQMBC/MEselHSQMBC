@@ -1,0 +1,207 @@
+;ME-selHSQMBC
+;Multiplicity-editing selHSQMBC
+;with options for TOCSY transfer (cnst26)
+;IMPORTANT----> if TOCSY is on gpz8=gpz4; if TOCSY is off
+gpz8=gpz4+gpz2
+;version topspin3.1
+#include <Avance.incl>
+#include <Grad.incl>
+#include <Delay.incl>
+#include <De.incl>
+"p2=p1*2"
+"d4=1s/(cnst2*4)"
+"d11=30m"
+"d12=20u"
+"d20=p3"
+"d21=1s/(cnst3*2)"
+"d0=3u"
+"in0=inf1/2"
+"DELTA1=50u+p16+d16"
+"DELTA2=d4-larger(p12,p14)/2-50u-p16-d16"
+"DELTA=p16+d16+50u+p2+d0*2"
+"DELTA4=d21-p2+p3*2/PI"
+"DELTA5=d21-p16-d16-p2-d0*2-p3*2/PI"
+"FACTOR1=(d9/(p6*115.112))/2+0.5"
+"l1=FACTOR1*2"
+"acqt0=0"
+baseopt_echo
+1 ze
+2 d1 do:f2
+d12 pl1:f1
+3 (p1 ph1):f1
+50u UNBLKGRAD
+p16:gp3
+10
+d16
+DELTA2 pl0:f2 pl0:f1
+(center (p12:sp2 ph1) (p14:sp3 ph6):f2 )
+DELTA2 pl2:f2 pl1:f1
+50u
+p16:gp3
+d16
+(p1 ph2)
+(p3 ph3):f2
+d0
+(p2 ph5) d0
+p16:gp1*EA
+d16 pl0:f2
+DELTA5
+(p31:sp18 ph1):f2
+(p2 ph1)
+DELTA4
+4u
+(p31:sp18 ph1):f2
+2u
+2u pl2:f2
+(p3 ph4):f2
+(p1 ph2):f1
+50u
+p16:gp4
+d16
+DELTA2 pl0:f2 pl0:f1
+(center (p12:sp2 ph1) (p14:sp3 ph1):f2 )
+DELTA2 pl2:f2 pl1:f1
+50u
+p16:gp8
+d16
+if "cnst26==0"
+{
+(p1 ph1):f1
+d12 pl10:f1
+;starts TOCSY
+4 p6*3.556 ph23
+p6*4.556 ph25
+p6*3.222 ph23
+p6*3.167 ph25
+p6*0.333 ph23
+11
+p6*2.722 ph25
+p6*4.167 ph23
+p6*2.944 ph25
+p6*4.111 ph23
+p6*3.556 ph25
+p6*4.556 ph23
+p6*3.222 ph25
+p6*3.167 ph23
+p6*0.333 ph25
+p6*2.722 ph23
+p6*4.167 ph25
+p6*2.944 ph23
+p6*4.111 ph25
+p6*3.556 ph25
+p6*4.556 ph23
+p6*3.222 ph25
+p6*3.167 ph23
+p6*0.333 ph25
+p6*2.722 ph23
+p6*4.167 ph25
+p6*2.944 ph23
+p6*4.111 ph25
+p6*3.556 ph23
+p6*4.556 ph25
+p6*3.222 ph23
+p6*3.167 ph25
+p6*0.333 ph23
+p6*2.722 ph25
+p6*4.167 ph23
+p6*2.944 ph25
+p6*4.111 ph23
+lo to 4 times l1
+;ends TOCSY
+d12 pl0:f1
+300u gron5
+(p32:sp29 ph7):f1
+100u groff
+d12 pl1:f1
+(p1 ph1):f1
+DELTA1
+(p2 ph1):f1
+50u
+p16:gp2
+d16 BLKGRAD
+}
+12
+else {
+}
+(p3 ph1):f2
+d12 pl12:f2
+go=2 ph31 cpd2:f2
+d1 do:f2 mc #0 to 2
+F1EA(igrad EA, id0 & ip3*2 & ip6*2 & ip31*2)
+exit
+ph1=0
+ph2=1
+ph3=0 2
+ph4=0
+ph5=0
+ph6=0
+ph7=0
+ph8=0
+ph23=3
+ph25=1
+ph30=0
+ph31=0 2
+;pl0 : 0 W
+;pl1 : f1 channel - power level for pulse (default)
+;pl2 : f2 channel - power level for pulse (default)
+;pl12: set to 0 W to deactivate CPD - f2 channel - power level for CPD/BB decoupling
+;sp2: f2 channel - shaped pulse (180degree refocusing)
+;sp3: f2 channel - shaped pulse (180degree inversion)
+;spnam3: Crp60,0.5,20.1
+;sp18: f2 channel - shaped pulse 180 degree (adiabatic matched sweep) ;spnam18: Crp60_xfilt.2
+;p1 : f1 channel - 90 degree high power pulse
+;p2 : f1 channel - 180 degree high power pulse
+;p3 : f2 channel - 90 degree high power pulse
+;p4 : f2 channel - 180 degree high power pulse
+;p6 : f1 channel - 90 degree low power pulse
+;p12 : f1 channel - 180 degree shaped pulse
+;p32 : f1 channel - 180 degree shaped pulse (adiabatic) [30 msec]
+; smoothed chirp
+;p14: f2 channel - 180 degree shaped pulse for inversion
+;
+;p31:
+;
+;p16: homospoil/gradient pulse
+;d0 : incremented delay (2D)
+= 500usec for Crp60,0.5,20.1
+f2 channel - 180 degree shaped pulse for adiabatic matched sweep
+1730 us at 600.13 MHz, otherwise: 1730*sqrt(600/x)
+[3 usec]
+13
+;d1 : relaxation delay; 1-5 * T1
+;d4 : 1/(4*n(J(CH))
+;d9 : TOCSY mixing time
+;d21: 1/(2*1J(CH))  XH, XH3 positive, XH2 negative
+;d11: delay for disk I/O
+[30 msec]
+[20 usec]
+;d12: delay for power switching
+;d16: delay for homospoil/gradient recovery
+;cnst2: = nJ(CH)
+;cnst3: = 1J(CH)
+;cnst26: 0=TOCSY on, 1=TOCSY off
+;inf1: 1/SW(X) = 2 * DW(X)
+;in0: 1/(2 * SW(X)) = DW(X)
+;nd0: 2
+;NS: 1 * n
+;DS: >= 16
+;td1: number of experiments
+;FnMODE: echo-antiecho
+;cpd2: decoupling according to sequence defined by cpdprg2
+;pcpd2: f2 channel - 90 degree pulse for decoupling sequence
+;use gradient ratio: gp 1 : gp 2
+; 80 : 20.1
+;for z-only gradients:
+;gpz1: 80%
+;gpz2: 20.1% for C-13
+;gpz3: 17%
+for C-13
+;gpz4: 11%
+;gpz5: 3%
+;gpz8: if TOCSY is on=gpz4; if TOCSY is off=gpz4+gpz2
+;use gradient files:
+;gpnam1: SMSQ10.100
+;gpnam2: SMSQ10.100
+;gpnam3: SMSQ10.100
+;gpnam4: SMSQ10.100
+;gpnam8: SMSQ10.100

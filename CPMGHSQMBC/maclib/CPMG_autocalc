@@ -1,0 +1,13 @@
+"CPMG_autocalc - macro to help setup of CPMGHSQMBC parameters"
+
+
+if pwxcp>pwcp then
+ corfacth=pwcp/pwxcp
+ corfactx=1.0
+elseif pwcp>pwxcp then
+ corfactx=pwxcp/pwcp
+ corfacth=1.0
+endif
+
+if (auto <> 'y') then dps endif
+

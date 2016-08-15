@@ -1,0 +1,10 @@
+bipflg='ny'
+f1coef='1 0 1 0 0 -1 0 1'
+dm='nnn'
+fixgrd(8):gzlvlE
+fixgrd(10):hsglvl
+fixgrd(6):gzlvl1
+rp1=0
+if (dn='C13') then 
+  setsw1(dn,230,-10):dof
+endif

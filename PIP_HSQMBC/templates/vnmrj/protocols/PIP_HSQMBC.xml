@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+ ! @(#)PIP_HSQMBC.xml 1.1 07/29/14
+ !
+ -->
+<template type="basic" name="PIP_HSQMBC" author="chempack" investigator=""
+         label="PIP_HSQMBC"
+        time_created="20140729T133336" tabname="hetero2D" apptype="hetero2D"
+        application="liquids" scans="PIP_HSQMBC" seqfil="PIP_HSQMBC">
+  <protocol title="PIP_HSQMBC" type="protocol">
+    <action  type="LIB" status="Ready" lock="off" title="PIP_HSQMBC" exp="PIP_HSQMBC"
+         required="wet1D PRESAT PROTON" dodialog="no"
+        time="2:30:15" macro="PIP_HSQMBC" data="" />
+  </protocol>
+</template>

@@ -1,0 +1,145 @@
+;LR-HSQMBC with heteronuclear decoupling
+;avance-version (RTW 12/04/2013)
+;2D H-1/X correlation via double inept transfer
+;phase sensitive using Echo/Antiecho-TPPI gradient selection ;using trim pulses in inept transfer
+;using shaped pulses for inversion and refocussing on f2
+;$CLASS=HighRes
+;$DIM=2D
+;$TYPE=
+;$SUBTYPE=
+;$COMMENT=
+#include <Avance.incl>
+#include <Grad.incl>
+#include <Delay.incl>
+
+"p2=p1*2"
+"d4=1s/(cnst2*4)" ;delay for long range couplings
+"d2=1s/(cnst6*2)" ;delay for BIRD LP filter
+
+# ifdef LABEL_CN
+"p22=p21*2"
+# else
+# endif /*LABEL_CN*/
+"d0=3u"
+"d11=30m"
+"in0=inf1/2"
+"DELTA1=d4-larger(p2,p14)/2-4u"
+"DELTA2=d4-larger(p2,p14)/2-p1*2/PI"
+"DELTA3=d4-p16-d16-larger(p2,p14)/2-p3-de-8u"
+"DELTA4=d4-p16-d16-larger(p2,p14)/2-de-8u"
+# ifdef LABEL_CN
+"DELTA=p16+d16+larger(p2,p22)+d0*2"
+# else
+"DELTA=p16+d16+p2+d0*2"
+# endif /*LABEL_CN*/
+"acqt0=0" baseopt_echo
+1 ze
+  d11 pl12:f2 ;rtw
+2 s1 do:f2 ;rtw
+3 (p1 ph1)
+
+DELTA1 UNBLKGRAD ;start BIRD
+p16:gp5
+d16
+(p1 ph1)
+d2
+(center (p2 ph1) (p14:sp3 ph8):f2)
+d2
+
+(p1 ph9)
+p16:gp5
+d16 pl2:f2
+DELTA1 ;end BIRD
+
+
+p28 ph1
+4u
+(p1 ph2)
+
+(p3 ph3):f2
+d0
+
+#ifdef LABEL_CN
+(center (p2 ph5) (p22 ph1):f3 )
+#else
+(p2 ph5)
+#endif /*LABEL_CN*/
+
+d0
+p16:gp1*EA
+d16
+4u
+(p24:sp7 ph4):f2
+4u
+DELTA pl2:f2
+(p3 ph4):f2
+
+(p1 ph1)
+DELTA2
+(center (p2 ph1) (p14:sp3 ph1):f2 )
+4u
+p16:gp2
+d16
+DELTA3 pl2:f2
+4u BLKGRAD
+
+(p3 ph7):f2
+
+4u pl12:f2
+
+go=2 ph31 cpd2:f2
+d1 do:f2 mc #0 to 2
+F1EA(calgrad(EA), caldel(d0, +in0) & calph(ph3, +180) & calph(ph6, +180) & calph(ph31, +180))
+exit
+
+ph1=0
+ph2=1
+ph3=0 2
+ph4=0 0 0 0 2 2 2 2
+ph5=0 0 2 2
+ph6=0
+ph7=0
+
+ph8=0
+ph9=2
+
+ph31=0 2 0 2 2 0 2 0
+
+;pl1 : f1 channel - power level for pulse (default)
+;pl2 : f2 channel - power level for pulse (default)
+;pl3 : f3 channel - power level for pulse (default)
+;pl12: f2 channel - power level for CPD/BB decoupling
+;sp3: f2 channel - shaped pulse 180 degree for inversion
+;sp7: f2 channel - shaped pulse 180 degree for refocussing
+;p1 : f1 channel - 90 degree high power pulse
+;p2 : f1 channel - 180 degree high power pulse
+;p3 : f2 channel - 90 degree high power pulse
+;p14: f2 channel - 180 degree shaped pulse for inversion
+;p16: homospoil/gradient pulse
+;p22: f3 channel - 180 degree high power pulse
+;p24: f2 channel - 180 degree shaped pulse for refocussing
+;p28: f1 channel - trim pulse
+
+;d0 : incremented delay (2D) [3 usec]
+;d1 : relaxation delay; 1-5 * T1
+;d4 : 1/(4J)XH
+;d16: delay for homospoil/gradient recovery
+;cnst2: = J(XH)
+;inf1: 1/SW(X) = 2 * DW(X)
+;in0: 1/(2 * SW(X)) = DW(X)
+;nd0: 2
+;NS: 1 * n
+;DS: >= 16
+;td1: number of experiments
+;FnMODE: echo-antiecho
+;cpd2: decoupling according to sequence defined by cpdprg2
+;pcpd2: f2 channel - 90 degree pulse for decoupling sequence
+;for z-only gradients:
+;gpz1: 80%
+;gpz2: 20.1% for C-13
+;gpz5: 17
+;use gradient files:
+;gpnam1: SMSQ10.100
+;gpnam2: SMSQ10.100
+;gpnam5: SMSQ10.100
+

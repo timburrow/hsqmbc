@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<template name="Quickbasic" element="pages" type="acquisition" >
+  <group size="690 280"
+    style="Heading1"
+    label="Info/Acquire"
+    bg=""
+    border="None"
+    side="Top"
+    justify="Left"
+    tab="yes"
+    enable="no"
+    reference="Quickbasic"
+    useref="no"
+    subtype="Basic"
+    expanded="yes"
+    >
+    <group loc="250 35" size="255 80"
+      bg=""
+      border="Etched"
+      tab="no"
+      enable="no"
+      reference="fastlogin"
+      useref="no"
+      subtype="Basic"
+      expanded="yes"
+      >
+      <label loc="5 5" size="90 20"
+        style="Heading1"
+        label="Current user:"
+        justify="Left"
+        />
+      <textmessage loc="100 5" size="150 20"
+        style="PlainText"
+        label="cpwuser (admin)"
+        vq="operator owner"
+        set="if (operator=owner) then $VALUE=operator+' (admin)' else $VALUE=operator endif"        />
+      <button loc="130 50" size="110 20"
+        style="Heading2"
+        label="Logout"
+        vq="FASTuser operator FASTenv"
+        vc="if (FASTenv='y') then fastuserlogin('logout') else operatorlogout endif"
+        show="$ENABLE=(FASTuser&lt;&gt;'')*2-1"
+        decor1=""
+        />
+      <button loc="15 50" size="110 20"
+        style="Heading2"
+        label="Login"
+        vq="FASTuser operator FASTenv"
+        vc="fastuserlogin('create',FASTuser)"
+        show="$ENABLE=((FASTuser&lt;&gt;'') and (FASTenv='y'))*2-1"
+        decor1=""
+        />
+      <group loc="5 25" size="245 20"
+        vq="FASTenv"
+        show="$SHOW=(FASTenv='y')"
+        bg=""
+        border="None"
+        tab="no"
+        enable="no"
+        useref="no"
+        subtype="Convenience"
+        >
+        <label loc="10 0" size="55 20"
+          style="Heading1"
+          label="Select"
+          justify="Right"
+          />
+        <filemenu loc="65 0" size="85 20"
+          style="PlainText"
+          vq="FASTuser"
+          vc="FASTuser='$VALUE'"
+          set="$VALUE=FASTuser"
+          file="$VALUE=userdir+'/adm/walkupadm/userlist'"
+          type="file"
+          bg=""
+          editable="No"
+          vq2="FASTuser"
+          statshow="no"
+          />
+        <entry loc="150 0" size="85 20"
+          style="PlainText"
+          vq="FASTuser owner"
+          vc="$user='$VALUE' if $user=owner then FASTuser='admin' else FASTuser=$user endif"          set="$VALUE=FASTuser"
+          show="$ENABLE=(FASTuser&lt;&gt;owner)*2-1"
+          />
+      </group>
+    </group>
+    <group loc="250 125" size="255 140"
+      bg=""
+      border="Etched"
+      side="Top"
+      justify="Left"
+      tab="no"
+      enable="no"
+      reference="acqopt"
+      useref="no"
+      subtype="Basic"
+      expanded="yes"
+      >
+      <group loc="5 25" size="245 100"
+        bg=""
+        border="None"
+        side="Top"
+        justify="Left"
+        tab="no"
+        enable="no"
+        reference="s2pulacq"
+        useref="no"
+        subtype="Basic"
+        expanded="yes"
+        >
+        <label loc="20 25" size="120 20"
+          style="Heading1"
+          label="Number of t1 inc.:"
+          justify="Right"
+          />
+        <menu loc="150 25" size="70 20"
+          style="PlainText"
+          label="menu"
+          vq="ni"
+          vc="ni=$VALUE setLP1 gaussian('f1')"
+          set="$VALUE=ni"
+          editable="No"
+          >
+          <mlabel
+            label="64"
+            chval="64"
+            />
+          <mlabel 
+            label="128"
+            chval="128"
+            />
+          <mlabel 
+            label="200"
+            chval="200"
+            />
+          <mlabel 
+            label="256"
+            chval="256"
+            />
+          <mlabel 
+            label="512"
+            chval="512"
+            />
+        </menu>
+        <label loc="20 5" size="120 20"
+          style="Label1"
+          label="Number of Scans:"
+          justify="Right"
+          />
+        <menu loc="150 5" size="70 20"
+          style="PlainText"
+          label="menu"
+          vq="nt"
+          vc="nt=$VALUE"
+          set="$VALUE=nt"
+          editable="No"
+          >
+          <mlabel
+            label="2"
+            chval="2"
+            />
+          <mlabel 
+            label="4"
+            chval="4"
+            />
+          <mlabel 
+            label="8"
+            chval="8"
+            />
+          <mlabel 
+            label="16"
+            chval="16"
+            />
+          <mlabel 
+            label="32"
+            chval="32"
+            />
+          <mlabel
+            label="64"
+            chval="64"
+            />
+        </menu>
+      </group>
+      <label loc="55 5" size="140 20"
+        style="Label1"
+        label="Acquisition"
+        justify="Center"
+        />
+    </group>
+    <group loc="505 35" size="170 225"
+      vq="customflag FASTuser operator"
+      show="$isuser=1 fastuserlogin('check'):$isuser $SHOW=((customflag='n') and ($isuser))"
+      bg=""
+      border="None"
+      tab="no"
+      enable="no"
+      reference="prepostacq"
+      useref="no"
+      subtype="Convenience"
+      expanded="yes"
+      >
+      <group loc="5 90" size="160 135"
+        bg=""
+        border="Etched"
+        tab="no"
+        enable="no"
+        reference="procplotdisp"
+        useref="no"
+        subtype="Basic"
+        expanded="yes"
+        >
+        <button loc="10 105" size="140 25"
+          style="Heading2"
+          label="Save"
+          vq="file"
+          vc="savefid"
+          show="is_cpfid:$cpfid $ENABLE=($cpfid=0)*2-1"
+          bg=""
+          decor1=""
+          />
+        <button loc="10 80" size="140 25"
+          style="Heading2"
+          label="Display"
+          vq="procdim"
+          vc="if procdim=1 then ds else dconi endif"
+          show="$ENABLE=(procdim&gt;0)*2-1"
+          bg=""
+          decor1=""
+          />
+        <button loc="10 55" size="140 25"
+          style="Heading2"
+          label="Plot"
+          vc="plot"
+          bg=""
+          decor1=""
+          />
+        <button loc="10 30" size="140 25"
+          style="Heading2"
+          label="Process"
+          vc="CPdndfid_process"
+          bg=""
+          decor1=""
+          />
+        <label loc="10 5" size="140 20"
+          style="Label1"
+          label="Post-Acquisition"
+          justify="Center"
+          />
+      </group>
+      <group loc="5 0" size="160 85"
+        bg=""
+        border="Etched"
+        tab="no"
+        enable="no"
+        reference="procplotdisp"
+        useref="no"
+        subtype="Basic"
+        expanded="yes"
+        >
+        <button loc="10 55" size="140 25"
+          style="Heading2"
+          label="Grad. Shim"
+          vc="gmapshim"
+          bg=""
+          decor1=""
+          />
+        <button loc="10 30" size="140 25"
+          style="Heading2"
+          label="Find z0"
+          vc="findz0_au"
+          bg=""
+          decor1=""
+          />
+        <label loc="10 5" size="140 20"
+          style="Label1"
+          label="Pre-Acquisition"
+          justify="Center"
+          />
+      </group>
+    </group>
+    <group loc="5 40" size="240 225"
+      style="Heading1"
+      vq="customflag FASTuser operator"
+      show="$isuser=1 fastuserlogin('check'):$isuser $SHOW=((customflag='n') and ($isuser))"
+      bg=""
+      border="Etched"
+      side="Top"
+      justify="Left"
+      tab="no"
+      enable="no"
+      reference="sampinfobasic"
+      useref="no"
+      subtype="Basic"
+      expanded="yes"
+      >
+      <entry loc="75 200" size="160 20"
+        style="PlainText"
+        vq="emailaddr "
+        vc="emailaddr='$VALUE'"
+        set="$VALUE=emailaddr"
+        disable="Grayed out"
+        />
+      <label loc="5 200" size="70 20"
+        style="Label1"
+        label="E-Address:"
+        justify="Left"
+        />
+      <label loc="5 5" size="105 20"
+        style="Label1"
+        label="Sample Info"
+        justify="Center"
+        />
+      <button loc="115 5" size="120 20"
+        style="Heading2"
+        label="Use My Prefs"
+        vq="userremembrance"
+        vc="loaduserprefs"
+        show="isnewexp:$isnew $ENABLE=(($isnew&gt;0) and (userremembrance='y'))*2-1"
+        decor1=""
+        />
+      <entry loc="100 30" size="135 20"
+        style="PlainText"
+        vq=" samplename"
+        vc=" samplename='$VALUE' setsamplename"
+        set="$VALUE=samplename"
+        disable="Grayed out"
+        />
+      <label loc="10 30" size="90 20"
+        style="Label1"
+        label="Sample Name:"
+        justify="Left"
+        />
+      <entry loc="100 50" size="135 20"
+        style="PlainText"
+        vq=" lot"
+        vc=" lot='$VALUE'"
+        set="$VALUE=lot"
+        disable="Grayed out"
+        />
+      <label loc="10 50" size="90 20"
+        style="Label1"
+        label="Lot Number:"
+        justify="Left"
+        />
+      <textfile loc="5 140" size="230 60"
+        style="PlainText"
+        vq="curexp"
+        set="$VALUE=curexp+'/text'"
+        editable="yes"
+        wrap="yes"
+        />
+      <label loc="5 120" size="100 20"
+        style="Label1"
+        label="Comments:"
+        justify="Left"
+        />
+      <filemenu loc="90 95" size="125 20"
+        style="PlainText"
+        vq="solvent"
+        vc="solvent='$VALUE' setref"
+        set="format(solvent,'lower'):$VALUE"
+        file="/vnmr/solventlist"
+        type="file"
+        editable="No"
+        statshow="yes"
+        />
+      <label loc="5 95" size="80 20"
+        style="Label1"
+        label="Solvent"
+        justify="Right"
+        />
+      <label loc="140 70" size="40 20"
+        style="Label1"
+        label="Page:"
+        justify="Left"
+        />
+      <entry loc="180 70" size="55 20"
+        style="PlainText"
+        vq=" page"
+        vc=" page='$VALUE'"
+        set="$VALUE=page"
+        />
+      <entry loc="80 70" size="55 20"
+        style="PlainText"
+        vq=" notebook"
+        vc=" notebook='$VALUE'"
+        set="$VALUE=notebook"
+        />
+      <label loc="10 70" size="70 20"
+        style="Label1"
+        label="Notebook:"
+        justify="Left"
+        />
+    </group>
+    <group loc="5 5" size="665 25"
+      bg=""
+      border="Etched"
+      side="Top"
+      justify="Left"
+      tab="no"
+      enable="no"
+      reference="tndndisplay"
+      useref="no"
+      subtype="Basic"
+      expanded="yes"
+      >
+      <group loc="410 0" size="250 25"
+        bg=""
+        border="None"
+        tab="no"
+        enable="no"
+        useref="no"
+        subtype="Convenience"
+        >
+        <toggle loc="165 0" size="80 25"
+          style="Heading2"
+          label="Insert"
+          vq="customflag FASTuser"
+          vc="insert"
+          show="$isuser=1 fastuserlogin('check'):$isuser $ENABLE=((customflag='n') and ($isuser))*2-1"
+          statpar="air"
+          statval="insert"
+          radiobutton="true"
+          />
+        <toggle loc="85 0" size="80 25"
+          style="Heading2"
+          label="Eject"
+          vq="customflag FASTuser"
+          vc="eject"
+          show="$isuser=1 fastuserlogin('check'):$isuser $ENABLE=((customflag='n') and ($isuser))*2-1"
+          statpar="air"
+          statval="eject"
+          radiobutton="true"
+          />
+        <label loc="5 0" size="75 25"
+          style="Label1"
+          label="Sample: "
+          justify="Right"
+          />
+      </group>
+      <textmessage loc="185 0" size="165 25"
+        style="PlainText"
+        label="Obs: H1        Dec: C13"
+        vq="tn dn"
+        set="$VALUE='Obs: '+tn+'    Dec: '+dn"
+        />
+      <textmessage loc="5 0" size="175 25"
+        style="PlainText"
+        label="Experiment: PROTON"
+        vq="pslabel"
+        set="$VALUE='Experiment: '+pslabel"
+        />
+    </group>
+  </group>
+</template>

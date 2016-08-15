@@ -1,0 +1,24 @@
+################################################################################
+##                    AGILENT TECHNOLOGIES MR USER LIBRARY                    ##
+##         Software Library for the Agilent NMR & MRI User Community          ##
+################################################################################
+                                SUBMISSION FORM
+
+Submitter:      Ron Crouch; Agilent
+e-mail:         ron.crouch@agilent.com
+Date submitted: 2014-07-30
+
+File name:      PIP_HSQMBC
+Directory:      psglib; maclib; parlib; templates/layout
+Description:	Pure In-Phase HSQMBC. From: "Pure In-Phase Heteronuclear Correlation NMR Experiments": Laura Castanar, Josep Sauri, Robert Thomas Williamson, Albert Virgili, and Teodor Parella -  Angewandte Chemie Int. Ed. 2014, 53 p1-5.
+
+Related files:  maclib/PIP_HSQMBC, maclib/PIP_HSQMBC_setup,  parlib/PIP_HSQMBC.par templates/layout/PIP_HSQMBC templates/vnmrj/protocols/PIP_HSQMBC.xml
+
+Existing VnmrJ / VNMR files which are superseded or
+otherwise affected by this submission:  none
+Hardware configuration limitations:     any direct-drive machine or INOVA with wavegen on X channel
+Known software version compatibility:   VnmrJ 3.0 or newer.
+Known OS version compatibility:         n.a.
+Special instructions for installation:
+	Untar where desired. Point to the resulting PIP_HSQMBC directory in Applications directories; then seqgen PIP_HSQMBC.
+********************************************************************************

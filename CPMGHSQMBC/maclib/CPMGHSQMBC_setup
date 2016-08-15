@@ -1,0 +1,15 @@
+if (dn='C13') then setsw1(dn,225,-15) endif
+at=0.5 d1=2-at
+sb=-.45 sbs=-0.3 pi4ssbsq('f1')
+ph ph1
+pwcp=4*pw tpwrcp=tpwr-12 pwcp=pwcp*tpwr_cf
+pwxcp=4*pwx pwxlvlcp=pwxlvl-12 pwxcp=pwxcp*pwxlvl_cf
+
+if (pwxcp>pwcp) then corfacth=pwcp/pwxcp corfactx=1.0 
+elseif (pwcp>pwxcp) then corfactx=pwxcp/pwcp corfacth=1.0
+endif
+pwxcp=pwcp
+
+hshape='garp1' xshape='garp1'
+cpmg='y'
+

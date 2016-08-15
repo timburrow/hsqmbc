@@ -1,0 +1,25 @@
+################################################################################
+##                    AGILENT TECHNOLOGIES MR USER LIBRARY                    ##
+##         Software Library for the Agilent NMR & MRI User Community          ##
+################################################################################
+                                SUBMISSION FORM
+
+Submitter:      Ron Crouch; Agilent
+e-mail:         ron.crouch@agilent.com
+Date submitted: 2014-07-15
+
+File name:      LR_HSQMBC
+Directory:      psglib; maclib; parlib; templates/layout
+Description:	time-symetric long range H/X 2D. From Williamson, Buevich, Martin, & Parella; JOC 79 p3887-3894 (2014).
+
+Related files:  maclib/LR_HSQMBC, maclib/LR_HSQMBC_setup,  parlib/LR_HSQMBC.par templates/layout/LR_HSQMBC
+
+Existing VnmrJ / VNMR files which are superseded or
+otherwise affected by this submission:  none
+Hardware configuration limitations:     any direct-drive machine or INOVA with wavegen on X channel
+Known software version compatibility:   VnmrJ 3.0 or newer.
+Known OS version compatibility:         n.a.
+Special instructions for installation:
+	Untar where desired. Point to the resulting LR_HSQMBC directory in Applications directories; then seqgen LR_HSQMBC.
+	To setup type LR_HSQMBC from PROTON. To test in StudyQueue. New study.. walkupQ_add('LR_HSQMBC').. customize as desired..  To add to experiment selector; Tools->study clones-> command and protocol buttons. Create as type experiment and just run the macro LR_HSQMBC. direct to any desired part of experiment selector.
+********************************************************************************
